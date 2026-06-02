@@ -1,0 +1,50 @@
+import sys
+import gc
+class university:
+    students=[]
+    def __init__(self,university_name):
+        self.university_name=university_name
+    class student:
+      def __init__(self,rn,name,university):
+        self.rn=rn
+        self.name=name
+        self.university=university
+      def display_detail(self):
+        print(f"{self.rn:<10}{self.name:<20}{self.university:<30}")
+    def add_student(self,rn,name):
+        s=u.student(rn,name,self.university_name)
+        university.students.append(s)
+        print(f"\nAdded {name}")
+        print("\nStudent reference count:",sys.getrefcount(s))
+        print("University reference count:",sys.getrefcount(self))
+    def remove_student(self,rn):
+        f=0
+        for i in university.students:
+            if i.rn==rn:
+                print(f"Removed {i.name}")
+                print("\nStudent reference count before deleting:",sys.getrefcount(self))
+                university.students.remove(i)
+                del i
+                gc.collect()
+                f=1
+                break
+        if f==0:
+            print("Student details not found")
+    def display_all(self):
+        for i in university.students:
+            i.display_detail()
+n=int(input("Enter no. of students to be added:"))
+for i in range(n):
+    print("STUDENT %i"%(i+1))
+    rn=input("Roll.no:")
+    name=input("Name:")
+    uni=input("University:")
+    u=university(uni)
+    u.add_student(rn,name)
+nr=int(input("Enter no. of students to be removed:"))
+for i in range(nr):
+    re=input("Enter roll no. of student to be removed:")
+    u.remove_student(re)
+print("--STUDENT DETAILS--")
+print(f"{'Roll no':<10}{'Name':<20}{'University':<30}")
+u.display_all()
