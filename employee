@@ -1,0 +1,60 @@
+import sys
+import gc
+class company:
+    def __init__(self):
+        self.employees=[]
+    class employee:
+        def __init__(self,id,name,salary,door_no,street,city,state):
+            self.emp_id=id
+            self.emp_name=name
+            self.salary=salary
+            self.a=self.address(door_no,street,city,state)
+        class address:
+            def __init__(self,door_no,street,city,state):
+                self.door_no=door_no
+                self.street=street
+                self.city=city
+                self.state=state
+            def display_details(self):
+                print(self.door_no,",",self.street,",",self.city,",",self.state)
+        def display(self):
+            print(f"{self.emp_id:<10}{self.emp_name:<20}{self.salary:<10}",end="")
+            self.a.display_details()
+    def hiring(self,id,name,salary,door_no,street,city,state):
+        emp=self.employee(id,name,salary,door_no,street,city,state)
+        self.employees.append(emp)
+        print(f"{name} hired")
+    def resign(self,id):
+        f=0
+        for i in self.employees:
+            if i.emp_id==id:
+                self.employees.remove(i)
+                print(f"{i.emp_name} resigned")
+                del i
+                gc.collect()
+                f=1
+                break
+        if f==0:
+            print("Employee not found")
+    def display_all(self):
+        print("-----EMPLOYEE DETAILS-----")
+        print(f"{'ID':<10}{'Name':<20}{'Salary':<10}{'Address':<50}")
+        for i in self.employees:
+            i.display()
+c=company()
+n=int(input("Enter the no of employees to be hired..."))
+for i in range(n):
+    print("-----EMPLOYEE %i-----"%(i+1))
+    id=input("Id:")
+    name=input("Name:")
+    salary=int(input("Salary:"))
+    no=input("Door no:")
+    str=input("Street:")
+    city=input("City:")
+    state=input("State:")
+    c.hiring(id,name,salary,no,str,city,state)
+nr=int(input("Enter the no of employees to be resigned..."))
+for i in range(nr):
+    se=input("Enter the employee id to be resigned...")
+    c.resign(se)
+c.display_all()
