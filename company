@@ -1,0 +1,48 @@
+import sys
+import gc
+class company:
+    def __init__(self,cname):
+        self.cname=cname
+        self.employees=[]
+    class employee:
+        def __init__(self,emp_id,emp_name,com):
+            self.emp_id=emp_id
+            self.emp_name=emp_name
+            self.com=com
+        def display(self):
+            print(f"{self.emp_id:<10}{self.emp_name:<20}{self.com:<30}")
+    def add_employee(self,emp_id,emp_name):
+        e=self.employee(emp_id,emp_name,self.cname)
+        self.employees.append(e)
+        print("After add ref count:",sys.getrefcount(e))
+    def remove_employee(self,emp_id):
+        for e in self.employees:
+            f=0
+            if e.emp_id==emp_id:
+                print("Before deleting ref count:",sys.getrefcount(e))
+                self.employees.remove(e)
+                del e
+                gc.collect()
+                print("Employee removed")
+                f=1
+                break
+        if f==0:
+            print("Employee not found")
+    def disp(self):
+        print(f"{'Id':<10}{'Name':<20}{'Company':<30}")
+        for i in self.employees:
+            i.display()
+c=company(input("Company name:"))
+n=int(input("Enter the no of employees to be added..."))
+for i in range(n):
+    emp_id=input("Id:")
+    name=input("Name:")
+    c.add_employee(emp_id,name)
+print("-----EMPLOYEE DETAILS AFTER ADDING-----")
+c.disp()
+nr=int(input("Enter the no. of employee  to be removed..."))
+for i in range(nr):
+    emp_id=input("Enter the id to be removed...")
+    c.remove_employee(emp_id)
+print("-----EMPLOYEE DETAILS AFTER REMOVING-----")
+c.disp()
