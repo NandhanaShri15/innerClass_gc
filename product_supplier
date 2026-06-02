@@ -1,0 +1,29 @@
+import sys
+class product:
+    def __init__(self,name,sup,w,c):
+        self.name=name
+        self.sup=sup
+        self.spec=self.spec(w,c)
+    class spec:
+        def __init__(self,w,c):
+            self.w=w
+            self.c=c
+        def display(self):
+            print(f"{self.w:<10}{self.c:<10}")
+    def disp(self):
+        print(f"{self.name:<10}{self.sup:<10}",end="")
+        self.spec.display()
+products=[]
+n=int(input("Enter the no of products..."))
+for i in range(n):
+    name=input("Product:")
+    sup=input("Supplier:")
+    w=input("Weight:")
+    c=input("Colour:")
+    p=product(name,sup,w,c)
+    print("Reference count:",sys.getrefcount(p))
+    products.append(p)
+print("-----PRODUCT DETAILS-----")
+print(f"{'Product':<10}{'Supplier':<10}{'Weight':<10}{'Colour':<10}")
+for i in products:
+    i.disp()
