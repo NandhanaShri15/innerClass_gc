@@ -1,0 +1,28 @@
+import sys
+class student:
+    def __init__(self,name):
+        self.name=name
+        self.courses=[]
+    class course:
+        def __init__(self,cname):
+            self.cname=cname
+    def add_course(self,cname):
+        self.courses.append(self.course(cname))
+    def display(self):
+        print(self.name)
+        for i in self.courses:
+            print("-",i.cname)
+students=[]
+n=int(input("Enter the no of students..."))
+for i in range(n):
+    n=input("Name:")
+    s=student(n)
+    print("Student reference count:",sys.getrefcount(s))
+    m=int(input("Enter the no of courses..."))
+    for j in range(m):
+        cname=input("Course:")
+        s.add_course(cname)
+    students.append(s)
+
+for i in students:
+    i.display()
